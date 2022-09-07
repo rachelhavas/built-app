@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { BudgetItem } from './budget-item.entity';
 import { BudgetItemsService } from './budget-items.service';
 import { CreateBudgetItemDto } from './dto/create-budget-item.dto';
 import { UpdateBudgetItemDto } from './dto/update-budget-item.dto';
@@ -8,27 +9,22 @@ export class BudgetItemsController {
   constructor(private readonly budgetItemsService: BudgetItemsService) {}
 
   @Post()
-  create(@Body() createBudgetItemDto: CreateBudgetItemDto) {
+  create(@Body() createBudgetItemDto: CreateBudgetItemDto): Promise<BudgetItem> {
     return this.budgetItemsService.create(createBudgetItemDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<BudgetItem[]> {
     return this.budgetItemsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.budgetItemsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBudgetItemDto: UpdateBudgetItemDto) {
-    return this.budgetItemsService.update(+id, updateBudgetItemDto);
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<BudgetItem> {
+    return this.budgetItemsService.findOne(id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.budgetItemsService.remove(+id);
+  remove(@Param('id') id: number): Promise<void> {
+    return this.budgetItemsService.remove(id);
   }
 }

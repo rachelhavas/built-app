@@ -9,11 +9,18 @@ import { UpdateBudgetItemDto } from './dto/update-budget-item.dto';
 export class BudgetItemsService {
   constructor(
     @InjectRepository(BudgetItem)
-    private budjetItemRepository: Repository<BudgetItem>,
+    private readonly budjetItemRepository: Repository<BudgetItem>,
   ) {}
 
-  create(createBudgetItemDto: CreateBudgetItemDto) {
-    return 'This action adds a new budgetItem';
+  create(createBudgetItemDto: CreateBudgetItemDto): Promise<BudgetItem> {
+    const budgetItem = new BudgetItem();
+    budgetItem.name = createBudgetItemDto.name;
+    budgetItem.amount = createBudgetItemDto.amount;
+    budgetItem.owner = createBudgetItemDto.owner;
+    budgetItem.startDate = createBudgetItemDto.startDate;
+    budgetItem.endDate = createBudgetItemDto.endDate;
+    budgetItem.isActive = createBudgetItemDto.isActive;
+    return this.budjetItemRepository.save(budgetItem);
   }
 
   findAll(): Promise<BudgetItem[]> {
@@ -21,12 +28,12 @@ export class BudgetItemsService {
   }
 
   findOne(id: number): Promise<BudgetItem> {
-    return this.budjetItemRepository.findOneBy({ id });
+    return this.budjetItemRepository.findOneBy({ id: id });
   }
 
-  update(id: number, updateBudgetItemDto: UpdateBudgetItemDto) {
+  /*update(id: number, updateBudgetItemDto: UpdateBudgetItemDto) {
     return `This action updates a #${id} budgetItem`;
-  }
+  }*/
 
   async remove(id: number): Promise<void> {
     await this.budjetItemRepository.delete(id);
