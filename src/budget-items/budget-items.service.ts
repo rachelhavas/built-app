@@ -31,9 +31,9 @@ export class BudgetItemsService {
     return this.budjetItemRepository.findOneBy({ id: id });
   }
 
-  /*update(id: number, updateBudgetItemDto: UpdateBudgetItemDto) {
+  update(id: number, updateBudgetItemDto: UpdateBudgetItemDto) {
     return `This action updates a #${id} budgetItem`;
-  }*/
+  }
 
   async remove(id: number): Promise<void> {
     await this.budjetItemRepository.delete(id);

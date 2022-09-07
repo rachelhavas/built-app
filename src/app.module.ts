@@ -15,7 +15,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       password: 'root',
       database: 'test',
       entities: [BudgetItem],
-      synchronize: true,
+      migrations: [
+        "src/migrations/*.js"
+      ],
+      migrationsTableName: "budget_item_table",
+      migrationsRun: true,
+      synchronize: false
     }),
     BudgetItemsModule,
   ],

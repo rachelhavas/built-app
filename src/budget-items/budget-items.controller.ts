@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { BudgetItem } from './budget-item.entity';
 import { BudgetItemsService } from './budget-items.service';
 import { CreateBudgetItemDto } from './dto/create-budget-item.dto';
@@ -11,6 +11,11 @@ export class BudgetItemsController {
   @Post()
   create(@Body() createBudgetItemDto: CreateBudgetItemDto): Promise<BudgetItem> {
     return this.budgetItemsService.create(createBudgetItemDto);
+  }
+  
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateBudgetItemDto: UpdateBudgetItemDto) {
+    return this.budgetItemsService.update(+id, updateBudgetItemDto);
   }
 
   @Get()
@@ -28,3 +33,4 @@ export class BudgetItemsController {
     return this.budgetItemsService.remove(id);
   }
 }
+
